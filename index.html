@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>An Invitation For You ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="card active" id="step-1">
+        <div class="progress-container"><div class="progress-bar" style="width: 15%"></div></div>
+        
+        <div class="gif-container">
+            <img id="main-gif" src="patrick.gif" alt="Patrick Star">
+        </div>
+        
+        <h2>Will you go out with me?</h2>
+        <p class="subtitle">Please say yes!</p>
+        
+        <div class="btn-group">
+            <button class="btn btn-primary" id="yes-btn" onclick="nextStep(2)">YES! ✨</button>
+            <button class="btn btn-outline" id="no-btn">No</button>
+        </div>
+    </div>
+
+    <div class="card" id="step-2">
+        <div class="progress-container"><div class="progress-bar" style="width: 40%"></div></div>
+        
+        <div class="gif-container">
+            <img src="2ndPage.gif" alt="Surprised Minion">
+        </div>
+        
+        <h2>WAIT YOU ACTUALLY SAID YES??</h2>
+        <p class="subtitle">I was so ready for you to say no...</p>
+        
+        <div class="btn-group">
+            <button class="btn btn-primary" style="max-width: 260px;" onclick="nextStep(3)">okay okay! ➔</button>
+        </div>
+    </div>
+
+    <div class="card" id="step-3">
+        <div class="progress-container"><div class="progress-bar" style="width: 50%"></div></div>
+        
+        <h2>So... when are you free? 🗓️</h2>
+        <p class="subtitle">Pick a day that works for you!</p>
+        
+        <div class="grid-select">
+            <div class="grid-item" onclick="selectDate(this, 'June 12')"><span class="emoji">😁</span><span>June 12</span></div>
+            <div class="grid-item" onclick="selectDate(this, 'June 13')"><span class="emoji">😁</span><span>June 13</span></div>
+            <div class="grid-item" onclick="selectDate(this, 'June 19')"><span class="emoji">😁</span><span>June 19</span></div>
+            <div class="grid-item" onclick="selectDate(this, 'June 24')"><span class="emoji">😁</span><span>June 24</span></div>
+            <div class="grid-item" onclick="selectDate(this, 'June 25')"><span class="emoji">😁</span><span>June 25</span></div>
+            <div class="grid-item" onclick="selectDate(this, 'None of these')"><span class="emoji">😿</span><span>None</span></div>
+        </div>
+        
+        <div class="btn-group">
+            <button class="btn btn-primary" style="max-width: 260px;" onclick="goToTime()">Continue ➔</button>
+        </div>
+    </div>
+
+    <div class="card" id="step-4">
+        <div class="progress-container"><div class="progress-bar" style="width: 70%"></div></div>
+        
+        <h2>What time works best? ⏰</h2>
+        <p class="subtitle">Let me know when I should pick you up!</p>
+        
+        <input type="time" id="time-input">
+        
+        <div class="btn-group">
+            <button class="btn btn-primary" style="max-width: 260px;" onclick="generateRecap()">Set Time & Finish 🎉</button>
+        </div>
+    </div>
+
+    <div class="card" id="step-5">
+        <div class="progress-container"><div class="progress-bar" style="width: 85%"></div></div>
+        
+        <h2>glad you didn't say no. be ready, I'm coming to get you 🛵</h2>
+        
+        <div class="summary-box">
+            <div class="summary-item"><strong>🗓️ Date:</strong> <span id="summary-date">TBD</span></div>
+            <div class="summary-item"><strong>⏰ Time:</strong> <span id="summary-time">TBD</span></div>
+            <div class="summary-item"><strong>📍 Place: </strong> <span> TAGAYTAY </span></div>
+            <div class="summary-item"><strong>⚡ Activity:</strong> <span>Just having a good time ✨</span></div>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-primary" style="max-width: 260px;" onclick="nextStep(6)">Next ➔</button>
+        </div>
+    </div>
+
+    <div class="card" id="step-6">
+        <div class="progress-container"><div class="progress-bar" style="width: 100%"></div></div>
+        
+        <h2>Just a few reminders! 💡</h2>
+        <p class="subtitle">Before I pick you up...</p>
+        
+        <div class="summary-box">
+            <ul style="text-align: left; margin-left: 20px; font-size: 1rem; color: #2d3436; line-height: 1.8;">
+                <li>Bring an <strong>extra outfit</strong> just in case! 👕</li>
+                <li>Wear comfortable outfit and shoes! 👟</li>
+                <li>Get ready to have a lot of fun! ✨</li>
+            </ul>
+        </div>
+
+        <p style="font-size: 1.2rem; color: #ff1b7a; font-weight: bold; margin-top: 1.5rem;">See you soon! ❤️</p>
+    </div>
+
+    <script>
+        function nextStep(stepNumber) {
+            document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
+            document.getElementById(`step-${stepNumber}`).classList.add('active');
+
+            if (stepNumber === 2) {
+                confetti({
+                    particleCount: 150,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#ff1b7a', '#ff4b98', '#ffffff']
+                });
+            }
+        }
+
+        let selections = {
+            date: '',
+            time: ''
+        };
+
+        function selectDate(element, chosenDate) {
+            document.querySelectorAll('#step-3 .grid-item').forEach(item => item.classList.remove('selected'));
+            element.classList.add('selected');
+            selections.date = chosenDate;
+        }
+
+        function goToTime() {
+            if (selections.date === '') {
+                selections.date = "Surprise me!";
+            }
+            nextStep(4);
+        }
+
+        function generateRecap() {
+            const t = document.getElementById('time-input').value;
+            selections.time = t ? t : "Surprise me!";
+
+            document.getElementById('summary-date').innerText = selections.date;
+            document.getElementById('summary-time').innerText = selections.time;
+
+            const formData = new FormData();
+            formData.append('entry.1294398639', selections.date);
+            formData.append('entry.1109952925', selections.time);
+            formData.append('entry.1666859878', "Pre-planned");
+            formData.append('entry.863279864', "Pre-planned");
+
+            const googleFormURL = "https://docs.google.com/forms/d/e/1FAIpQLSfVyavjP1QYBUBsQFZdv2OCmFC7afeNUx6iVlHWoIa0I8Ah8g/formResponse";
+            
+            fetch(googleFormURL, {
+                method: 'POST',
+                mode: 'no-cors', 
+                body: formData
+            }).then(() => {
+            }).catch(error => {
+            });
+
+            nextStep(5);
+        }
+
+        const noBtn = document.getElementById('no-btn');
+        const yesBtn = document.getElementById('yes-btn');
+        let yesScale = 1;
+        let noClicks = 0;
+
+        function chaosMove() {
+            document.getElementById('main-gif').src = "sad.gif";
+            noClicks++;
+            yesScale += 0.3;
+            yesBtn.style.transform = `scale(${yesScale})`;
+            
+            const padding = 40;
+            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+            
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            
+            if (noClicks === 2) noBtn.innerText = "Are you sure? 🤨";
+            if (noClicks === 4) noBtn.innerText = "Error 404: No not found 🤖";
+            if (noClicks >= 6) noBtn.innerText = "Click YES already! 😂";
+        }
+
+        noBtn.addEventListener('mouseover', chaosMove);
+        noBtn.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            chaosMove();
+        });
+
+        yesBtn.addEventListener('mouseover', function() {
+            document.getElementById('main-gif').src = "patrick.gif";
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</body>
+</html>
