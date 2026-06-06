@@ -139,7 +139,7 @@
             nextStep(4);
         }
 
-        function generateRecap() {
+       function generateRecap() {
             const t = document.getElementById('time-input').value;
             selections.time = t ? t : "Surprise me!";
 
@@ -147,24 +147,25 @@
             document.getElementById('summary-time').innerText = selections.time;
 
             const formData = new FormData();
-            formData.append('entry.1294398639', selections.date);
-            formData.append('entry.1109952925', selections.time);
-            formData.append('entry.1666859878', "Pre-planned");
-            formData.append('entry.863279864', "Pre-planned");
+            
+            formData.append('entry.563590318', selections.date); 
+            formData.append('entry.274860946', selections.time); 
 
-            const googleFormURL = "https://docs.google.com/forms/d/e/1FAIpQLSfVyavjP1QYBUBsQFZdv2OCmFC7afeNUx6iVlHWoIa0I8Ah8g/formResponse";
+            const googleFormURL = "https://docs.google.com/forms/d/e/1FAIpQLSerIUIQ79CmRkfhIVxbHGuGlrrFqTQqEcEKJj8JS8U-3dM1OQ/formResponse";
             
             fetch(googleFormURL, {
                 method: 'POST',
                 mode: 'no-cors', 
                 body: formData
             }).then(() => {
+                console.log("Successfully sent to database!");
             }).catch(error => {
+                console.error("Error:", error);
             });
 
             nextStep(5);
         }
-
+        
         const noBtn = document.getElementById('no-btn');
         const yesBtn = document.getElementById('yes-btn');
         let yesScale = 1;
